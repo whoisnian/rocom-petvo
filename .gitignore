@@ -1,0 +1,25 @@
+# 注意:data.js / sprite.webp / audio/*.m4a 虽是 scripts/gen_data.py 的产物,
+# 但**需要提交** —— 本仓库是纯静态站点,克隆下来要能直接打开、直接部署。
+# 别把它们加进来。
+
+# Python
+__pycache__/
+*.py[cod]
+/.venv/
+
+# 解包中间产物(正常在仓库外的 ~/Downloads/rocom/,放进来是误操作)
+/parsed/
+/Paks/
+*.bnk
+*.wem
+*.wav
+
+# 本地预览 / 调试临时文件
+/test*.html
+/serve.py
+
+# 编辑器 / 系统
+.DS_Store
+*.swp
+.idea/
+.vscode/
