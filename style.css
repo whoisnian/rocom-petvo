@@ -1,0 +1,67 @@
+:root{--bg:#f6f7f9;--card:#fff;--fg:#1b1d21;--dim:#6b7280;--line:#e3e6ea;--accent:#3b82f6;--ring:rgba(59,130,246,.35);--pad:20px}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1115;--card:#181b21;--fg:#e8eaed;--dim:#9aa3af;--line:#272b33;--accent:#60a5fa;--ring:rgba(96,165,250,.35)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:15px/1.5 system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+ -webkit-text-size-adjust:100%;overscroll-behavior-y:none}
+header{position:sticky;top:0;z-index:9;background:var(--bg);border-bottom:1px solid var(--line);
+ padding:calc(12px + env(safe-area-inset-top)) var(--pad) 10px}
+.wrap,main{max-width:1200px;margin:0 auto}
+h1{margin:0 0 10px;font-size:17px;font-weight:650}
+h1 span{color:var(--dim);font-weight:400;font-size:13px;margin-left:8px}
+.search{display:flex;gap:10px;align-items:center}
+/* font-size 必须 >=16px,否则 iOS Safari 聚焦时会自动放大页面 */
+input{flex:1;min-width:0;padding:11px 14px;font-size:16px;color:var(--fg);background:var(--card);
+ border:1px solid var(--line);border-radius:10px;outline:none;-webkit-appearance:none}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--ring)}
+main{padding:16px var(--pad) 24px}
+#grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}
+.pet{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 6px 8px;
+ text-align:center;cursor:pointer;user-select:none;-webkit-user-select:none;
+ transition:transform .12s,border-color .12s,opacity .12s;touch-action:manipulation}
+@media(hover:hover){.pet:hover{transform:translateY(-2px);border-color:var(--accent)}}
+.pet:active{transform:scale(.96);border-color:var(--accent)}
+.pet.playing{border-color:var(--accent);box-shadow:0 0 0 3px var(--ring)}
+.pet.loading{opacity:.5}
+.ico{width:64px;height:64px;margin:0 auto 6px;background-image:url(sprite.webp);
+ background-size:1344px 1344px}
+.pbs{display:flex;gap:4px;margin-top:6px}
+.pb{flex:1;min-width:0;font-family:inherit;font-size:10px;line-height:1.4;padding:3px 0;
+ color:var(--dim);background:transparent;border:1px solid var(--line);border-radius:6px;
+ cursor:pointer;white-space:nowrap;overflow:hidden;-webkit-appearance:none;
+ transition:background .12s,color .12s,border-color .12s}
+@media(hover:hover){.pb:hover{color:var(--accent);border-color:var(--accent)}}
+.pb:active{transform:scale(.94)}
+.pb.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.nm{font-size:13px;font-weight:550;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px}
+.id{font-size:11px;color:var(--dim);font-variant-numeric:tabular-nums;margin-top:1px}
+.empty{color:var(--dim);text-align:center;padding:60px 0}
+footer{max-width:1200px;margin:0 auto;padding:4px var(--pad) calc(28px + env(safe-area-inset-bottom));
+ text-align:center;color:var(--dim);font-size:12px;line-height:1.8}
+footer a{color:var(--accent);text-decoration:none}
+footer a:hover{text-decoration:underline}
+.pet.target{border-color:var(--accent);box-shadow:0 0 0 3px var(--ring)}
+/* 带 hash 打开时的揭晓弹窗:一次点击既满足移动端手势要求,又不剧透是谁 */
+#gate{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;
+ align-items:center;justify-content:center;gap:22px;cursor:pointer;
+ background:rgba(8,10,14,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+ padding:env(safe-area-inset-top) 20px env(safe-area-inset-bottom);
+ animation:fade .18s ease-out}
+#gate[hidden]{display:none}
+#gate.out{animation:fade .18s ease-in reverse forwards}
+.ring{width:min(46vw,168px);height:min(46vw,168px);border-radius:50%;
+ border:4px solid #fff;color:#fff;display:flex;align-items:center;justify-content:center;
+ font-size:min(22vw,80px);font-weight:700;line-height:1;
+ box-shadow:0 0 0 0 rgba(255,255,255,.35);animation:pulse 2s ease-out infinite}
+.gate-t{color:#fff;font-size:16px;font-weight:550;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.35)}
+ 70%{box-shadow:0 0 0 26px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+@media(prefers-reduced-motion:reduce){.ring{animation:none}#gate{animation:none}}
+@media(max-width:480px){
+ :root{--pad:12px}
+ #grid{gap:8px;grid-template-columns:repeat(auto-fill,minmax(88px,1fr))}
+ .ico{width:52px;height:52px;background-size:1092px 1092px}
+ .nm{font-size:12px}
+ h1{font-size:15px} h1 span{display:block;margin:2px 0 0}
+}
