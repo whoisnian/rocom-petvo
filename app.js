@@ -35,6 +35,10 @@ a.addEventListener('playing',()=>{if(!cur)return;cur.classList.remove('loading')
   // 移动端曾出现「play promise 落定前的赋值被丢弃」,这里补一次兜底
   if(Math.abs(a.playbackRate-curRate)>1e-3)a.playbackRate=curRate});
 a.addEventListener('ended',stop);
+// 安卓 QQ 内置浏览器(X5)会为刚获得焦点的表单控件强行滚动文档,点 .pb 时视口被拉到
+// 网格顶部附近;头像是普通 div,拿不到焦点,所以只有按钮受影响。mousedown 上
+// preventDefault 只取消「把焦点交给按钮」这个默认动作,click 仍会照常派发。
+grid.addEventListener('mousedown',e=>{if(e.target.closest('.pb'))e.preventDefault()});
 const seen={},vi={};
 for(const p of PETS)seen[p.book]=(seen[p.book]||0)+1;
 for(const p of PETS)if(seen[p.book]>1)vi[p.py]=(vi[p.book]=(vi[p.book]||0)+1);
@@ -52,7 +56,7 @@ function render(list){
       '<button class="pb" type="button" data-m="1">婉转声</button></div>';
     el.onclick=()=>{setHash(p);play(p,el,0)};
     for(const b of el.querySelectorAll('.pb'))
-      b.onclick=e=>{e.stopPropagation();setHash(p);play(p,el,+b.dataset.m)};
+      b.onclick=e=>{e.stopPropagation();b.blur();setHash(p);play(p,el,+b.dataset.m)};
     elMap.set(p.py,el);f.appendChild(el);
   }
   grid.appendChild(f);
